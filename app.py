@@ -1,7 +1,6 @@
 from werkzeug.wsgi import DispatcherMiddleware
-from web.frontend import app as frontend
 from web.api import app as api
-from flask import Flask
+from flask import Flask, render_template
 
 app = Flask(__name__)
 
@@ -10,9 +9,13 @@ app = Flask(__name__)
 def healthcheck():
     return 'Healthy', 200
 
+
+@app.route('/')
+def index():
+    return render_template('home.html')
+
+
 app.wsgi_app = DispatcherMiddleware(app.wsgi_app, {
-    # Frontend
-    '': frontend,
     # API
     '/api/v0': api,
 })
