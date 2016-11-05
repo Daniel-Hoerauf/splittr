@@ -10,6 +10,9 @@
           Please enter your username:<br>
           {{ form.username(size=80) }}<br>
       </p>
+      {% if taken %}
+      <p>That username isn't available</p>
+      {% endif %}
       <p>
           Please enter your email:<br>
           {{ form.email(size=80) }}<br>

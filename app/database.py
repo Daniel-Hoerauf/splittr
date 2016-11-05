@@ -1,6 +1,7 @@
 from app import mongo
 import re
 
+
 def register_user(username, password, email):
     user = {
         'username': username,
@@ -19,6 +20,7 @@ def login_user(username, password):
     else:
         return False
 
+
 def search_user(user_snippet):
     if user_snippet == '':
         results = mongo.db.users.find({}, {'username': 1})
@@ -30,3 +32,11 @@ def search_user(user_snippet):
         ret.append({'username': user['username'], 'id': str(user['_id'])})
     results.close()
     return ret
+
+
+def check_username_avail(username):
+    user = mongo.db.users.find_one({'username': username})
+    if user:
+        return False
+    else:
+        return True
