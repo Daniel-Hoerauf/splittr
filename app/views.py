@@ -1,8 +1,8 @@
-from flask import render_template, redirect
+from flask import render_template, redirect, jsonify
 from app import app
 from .forms import LoginForm
 from .forms import SignUpForm
-from .database import register_user, login_user
+from .database import register_user, login_user, search_user
 from .forms import GroupForm
 
 @app.route('/index')
@@ -16,6 +16,12 @@ def index():
 @app.route('/health/')
 def healthcheck():
     return 'Healthy', 200
+
+@app.route('/find_user/', methods=['GET'])
+@app.route('/find_user/<user_snippet>/', methods=['GET'])
+def find_user(user_snippet=''):
+    users = search_user(user_snippet)
+    return jsonify(users)
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
@@ -57,22 +63,22 @@ def landing():
 
 @app.route('/')
 def home():
-    groups = ["Naked & Afraid", "Frat stars", "bitches", "schmoes","Rachel"]
+    groups = ["Naked & Afraid", "Frat stars", "bitches", "schmoes", "Rachel"]
     username = "Kevin Kozlowski"
     return render_template('home.html',
-                            groups=groups,
-                            username=username)
+                           groups=groups,
+                           username=username)
 
 @app.route('/group')
 def group():
     members = [{'name': "bob jones", 'money': 70},
-              {'name': "malcolm", 'money': 80},
-              {'name': "diana", 'money': -3},
-              {'name': "stanley payne",'money': 666}]
+               {'name': "malcolm", 'money': 80},
+               {'name': "diana", 'money': -3},
+               {'name': "stanley payne", 'money': 666}]
     groupname = "Twelve"
     return render_template('group.html',
-                            members=members,
-                            groupname=groupname)
+                           members=members,
+                           groupname=groupname)
 
 @app.route('/creategroup', methods=['GET', 'POST'])
 def creategroup():
