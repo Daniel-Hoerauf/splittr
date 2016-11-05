@@ -17,3 +17,10 @@ def login_user(username, password):
         return str(user['_id'])
     else:
         return False
+
+def check_username_avail(username):
+    user = mongo.db.users.find_one({'username': username})
+    if user:
+        return False
+    else:
+        return True

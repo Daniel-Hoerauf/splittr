@@ -14,6 +14,9 @@
           Please enter your password:<br>
           {{ form.password(size=80) }}<br>
       </p>
+      {% if incorrect_pw_or_user %}
+        <p>Incorrect username or password</p>
+      {% endif %}
       <p>{{ form.remember_me }} Remember Me</p>
       <p><input type="submit" value="Login"></p>
   </form>

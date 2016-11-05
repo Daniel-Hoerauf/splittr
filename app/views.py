@@ -1,9 +1,8 @@
 from flask import render_template, redirect
 from app import app
-from .forms import LoginForm
-from .forms import SignUpForm
-from .database import register_user, login_user
-from .forms import GroupForm
+from .forms import LoginForm, SignUpForm, GroupForm
+from .database import register_user, login_user, check_username_avail
+from Crypto.Hash import SHA256
 
 @app.route('/index')
 def index():
@@ -21,35 +20,43 @@ def healthcheck():
 def signup():
     form = SignUpForm()
     if form.validate_on_submit():
-        # TODO: Check if username is available before registering user
-        # TODO: Hash password before storing it in database
+        if(not check_username_avail(form.username.data)):
+          return render_template('signup.html',
+                           title='Sign Up',
+                           form=form,taken=True)
+        # Hash password before storing it in database.
+        pwHash=SHA256.new(form.password.data.encode()).hexdigest()
         user_id = register_user(form.username.data,
-                                form.password.data, form.email.data)
+                                pwHash, form.email.data)
         response = redirect('/')
         response.set_cookie('SplittrUserId', user_id)
         return response
     return render_template('signup.html',
                            title='Sign Up',
-                           form=form)
+                           form=form, taken=False)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
     if form.validate_on_submit():
-        # TODO: Hash password before calling database
-        user_id = login_user(form.username.data, form.password.data)
+        # Hash password before calling database
+        pwHash=SHA256.new(form.password.data.encode()).hexdigest()
+        user_id = login_user(form.username.data, pwHash)
         if user_id:
             response = redirect('/')
             response.set_cookie('SplittrUserId', user_id)
             return response
         else:
-            # TODO: Go back to back with message of incorrect username or
+            # Go back to back with message of incorrect username or
             # password
+            return render_template('login.html',
+                           title='Log In',
+                           form=form,incorrect_pw_or_user=True)
             pass
 
     return render_template('login.html',
                            title='Login',
-                           form=form)
+                           form=form, incorrect_pw_or_user=False)
 
 @app.route('/landing')
 def landing():
