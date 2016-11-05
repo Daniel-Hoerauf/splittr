@@ -1,0 +1,10 @@
+<!-- extend from base layout -->
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>{{ username }}</h1>
+  <p><a href="/creategroup">Create Group</a></p>
+  {% for group in groups %}
+    <h3>{{ group }}</h3>
+    {% endfor %}
+{% endblock %}

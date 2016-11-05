@@ -18,3 +18,7 @@ class LoginForm(Form):
     password = PasswordField('Password', [
         validators.DataRequired(),
     ])
+
+class GroupForm(Form):
+    groupname = StringField('Groupname', [validators.Length(min=1, max= 25)])
+    field2 = StringField('Field2', [validators.Length(min=1, max=20)])

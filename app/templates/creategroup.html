@@ -1,0 +1,18 @@
+<!-- extend from base layout -->
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>Create Group</h1>
+  <form action="" method="post" name="creategroup">
+      {{ form.hidden_tag() }}
+      <p>
+          Group name:<br>
+          {{ form.groupname(size=80) }}<br>
+      </p>
+      <p>
+          Please enter something:<br>
+          {{ form.field2(size=80) }}<br>
+      </p>
+      <p><input type="submit" value="Create Group"></p>
+  </form>
+{% endblock %}
