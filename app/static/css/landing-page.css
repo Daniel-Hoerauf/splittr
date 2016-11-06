@@ -234,6 +234,16 @@ p.copyright {
 
 }
 
+.outline {
+    border-color: red;
+    padding-bottom:0;
+    padding-top:0;
+    width:125px;
+    height:29px;
+    background: none;
+    color: red;
+}
+
 .subtle-button {
     text-transform: uppercase;
     font-size: 10px;
@@ -249,4 +259,20 @@ p.copyright {
     width:120px;
     height:25px;
     text-align: center;
+}
+
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(even) {
+    background-color: #dddddd;
 }

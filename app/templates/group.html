@@ -6,9 +6,13 @@
         <div class="container">
             <div class="row">
               <div class="col-lg-12">
-                    <div class="intro-message-login">
-                        <p style="font-size: 50px; color: #3aba35; text-align: center"><b>$plittr</b></p>
-                        <p style="font-size: 15px; color: #000000; text-align: center">The Zach Blais Project</p>
+                    <div class="intro-message-login" id="textbox">
+                    <div id="textbox" style="padding-bottom:0px; padding-top:0px; margin-bottom:0px; margin-top:0px; height:29px; float: right"><a href="/logout/" class="btn btn-danger btn-lg outline">Logout</a></div>
+                       
+                        <div style="font-size: 50px; color: #3aba35;" class="newcontainer"><b>$plittr</b></div>
+                        
+                        
+                        <p style="font-size: 15 px; color: #000000; text-align: center">The Zach Blais Project</p>
                         <hr class="intro-divider">
                     </div>
               </div>
@@ -40,11 +44,11 @@
 	  </tr>
 	  {% for member in members %}
 	  <tr style="text-align: left">
-	    <td style="color: black" style="width: 100px">{{ member.name }}</td>
+	    <td style="color: black" style="width: 125px">{{ member.name }}</td>
 	    <td style="color: black" style="width: 20px">{{ member.money }}</td>
-	    <td style="width: 350px">
+	    <td style="width: 275px">
 	    	<p style="margin-bottom: 0px">
-	    		<input type="text" id="name" name="new_user" style="color: black"/>  <a href="/index" class="btn btn-info lil" style="width:75px"><span class="subtle-button">Paid</span></a><a href="/index" class="btn btn-info lil" style="width:75px"><span class="subtle-button">Owed</span></a>
+	    		<input type="text" id="name" name="new_user" style="color: black; width: 100px;"/>  <a href="/index" class="btn btn-info lil" style="width:75px"><span class="subtle-button">Paid</span></a><a href="/index" class="btn btn-info lil" style="width:75px"><span class="subtle-button">Owed</span></a>
 	    	</p>
 	    </td>
 	  </tr>
