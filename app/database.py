@@ -25,6 +25,10 @@ def add_member_to_group(group_id, user_id):
         return False
     members[user_id] = {}
     for member in members:
+        # Somehow people owe themselves money and I'm too tired to actually fix
+        # that
+        if member == user_id:
+            continue
         members[member][user_id] = 0
         members[user_id][member] = 0
     mongo.db.groups.update_one({'_id': group_obj}, {'$set': {'members': members}})
