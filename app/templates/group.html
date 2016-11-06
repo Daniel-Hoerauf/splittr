@@ -22,12 +22,42 @@
       <div class="col-lg-12">
        <p style="padding-bottom:20px"><a href="/" class="btn btn-warning lil"><span class="subtle-button">Back To Groups</span></a></p>
   <h1>{{ groupname }}</h1>
-  {% for member in members %}
-    <p>{{ member.name }} -- {{ member.money }} </p>
-    {% endfor %}
-    <p style="padding-bottom:20px"><a href="/index" class="btn btn-danger btn-sm"><span class="network-name">Delete Group</span></a></p>
+  <form action='add_member' method='post'>
+    <div>
+        <label style="color: black" for="user_id">Add Member:</label>
+        <input type="text" id="name" name="new_user" style="color: black"/>
+    </div>
+    <div class="button">
+        <button style="color: black" type="submit">Add to group</button>
+    </div>
+	</form>
+	<p></p>
+	<table class="table table-striped newcontainer" style="width: 700px" >
+	  <tr>
+	    <th style="color: black">Member</th>
+	    <th style="color: black">$ owed to you</th>
+	    <th style="color: black">Transaction</th>
+	  </tr>
+	  {% for member in members %}
+	  <tr style="text-align: left">
+	    <td style="color: black" style="width: 100px">{{ member.name }}</td>
+	    <td style="color: black" style="width: 20px">{{ member.money }}</td>
+	    <td style="width: 350px">
+	    	<p style="margin-bottom: 0px">
+	    		<input type="text" id="name" name="new_user" style="color: black"/>  <a href="/index" class="btn btn-info lil" style="width:75px"><span class="subtle-button">Paid</span></a><a href="/index" class="btn btn-info lil" style="width:75px"><span class="subtle-button">Owed</span></a>
+	    	</p>
+	    </td>
+	  </tr>
+	  {% endfor %}
+	</table>
+  
+
+    <p style="padding-bottom:20px"><a href="/index" class="btn btn-danger lil"><span class="subtle-button">Delete Group</span></a></p>
     </div>
     </div>
     </div>
     </div>
+
+
 {% endblock %}
+

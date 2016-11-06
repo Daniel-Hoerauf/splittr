@@ -3,6 +3,7 @@ from app import app
 from .forms import LoginForm, SignUpForm, GroupForm
 from .database import register_user, login_user, check_username_avail, search_user
 from .database import create_group, get_user_information, get_group_info
+from .database import add_member_to_group
 from Crypto.Hash import SHA256
 
 @app.route('/index')
@@ -95,7 +96,13 @@ def group(group_id):
         return redirect('/login')
     info = get_group_info(group_id)
     groupname = info['groupname']
-    members = info['members'][user]
+    user_data = info['members'][user]
+    members = []
+    for user in user_data:
+        temp = {}
+        temp['name'] = get_user_information(user)['username']
+        temp['money'] = user_data[user]
+        members.append(temp)
     return render_template('group.html',
                            members=members,
                            groupname=groupname)
@@ -113,3 +120,12 @@ def creategroup():
     return render_template('creategroup.html',
                            title='Create Group',
                            form=form)
+
+
+@app.route('/group/<group_id>/add_member', methods=['POST'])
+def add_member(group_id):
+    user_name = request.form['new_user']
+    to_add = search_user(user_name)[0]['id']
+    add_member_to_group(group_id, to_add)
+    redirect_url = '/group/{}/'.format(group_id)
+    return redirect(redirect_url)

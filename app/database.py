@@ -24,10 +24,13 @@ def add_member_to_group(group_id, user_id):
     if members.get(user_id):
         return False
     members[user_id] = {}
-    mongo.db.groups.update_one({'_id': group_id}, {'$set': {'members': members}})
-    groups = mongo.db.users.find_one({'_id': user_id})['groups']
+    for member in members:
+        members[member][user_id] = 0
+        members[user_id][member] = 0
+    mongo.db.groups.update_one({'_id': group_obj}, {'$set': {'members': members}})
+    groups = mongo.db.users.find_one({'_id': user_obj})['groups']
     groups.append(group_id)
-    mongo.db.users.update_one({'_id': user_id}, {'$set': {'groups': groups}})
+    mongo.db.users.update_one({'_id': user_obj}, {'$set': {'groups': groups}})
     return True
 
 
