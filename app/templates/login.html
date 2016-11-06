@@ -2,22 +2,45 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <div>$plittr: <a href="/signup">SignUp</a></div>
-  <h1>Login</h1>
-  <form action="" method="post" name="login">
-      {{ form.hidden_tag() }}
-      <p>
-          Please enter your username:<br>
+<div class="intro-header-login">
+        <div class="container">
+            <div class="row">
+              <div class="col-lg-12">
+                    <div class="intro-message-login">
+                        <p style="font-size: 50px; color: #3aba35; text-align: center"><b>$plittr</b></p>
+                        <p style="font-size: 15px; color: #000000; text-align: center">The Zach Blais Project</p>
+                        <hr class="intro-divider">
+                    </div>
+              </div>
+            </div>
+        </div>
+</div>
+
+
+<div class="intro-header-form">
+  <div class="container">
+    <div class="row>">
+      <div class="col-lg-12">
+        <div>$plittr: <a href="/signup">SignUp</a></div>
+        <span class="left"><h1>Login</h1></span>
+        <form action="" method="post" name="login">
+        {{ form.hidden_tag() }}
+        <p>
+          <span class="left">Please enter your username:<br></span>
           {{ form.username(size=80) }}<br>
-      </p>
-      <p>
-          Please enter your password:<br>
+        </p>
+        <p>
+          <span class="left">Please enter your password:<br></span>
           {{ form.password(size=80) }}<br>
-      </p>
-      {% if incorrect_pw_or_user %}
+        </p>
+        {% if incorrect_pw_or_user %}
         <p>Incorrect username or password</p>
-      {% endif %}
-      <p>{{ form.remember_me }} Remember Me</p>
-      <p><input type="submit" value="Login"></p>
-  </form>
+        {% endif %}
+        <p>{{ form.remember_me }} Remember Me</p>
+        <p><input type="submit" value="Login"></p>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}
