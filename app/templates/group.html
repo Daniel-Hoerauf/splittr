@@ -2,8 +2,32 @@
 {% extends "base.html" %}
 
 {% block content %}
+<div class="intro-header-login">
+        <div class="container">
+            <div class="row">
+              <div class="col-lg-12">
+                    <div class="intro-message-login">
+                        <p style="font-size: 50px; color: #3aba35; text-align: center"><b>$plittr</b></p>
+                        <p style="font-size: 15px; color: #000000; text-align: center">The Zach Blais Project</p>
+                        <hr class="intro-divider">
+                    </div>
+              </div>
+            </div>
+        </div>
+</div>
+
+<div class="intro-header">
+  <div class="container">
+    <div class="row>">
+      <div class="col-lg-12">
+       <p style="padding-bottom:20px"><a href="/" class="btn btn-warning lil"><span class="subtle-button">Back To Groups</span></a></p>
   <h1>{{ groupname }}</h1>
   {% for member in members %}
     <p>{{ member.name }} -- {{ member.money }} </p>
     {% endfor %}
+    <p style="padding-bottom:20px"><a href="/index" class="btn btn-danger btn-sm"><span class="network-name">Delete Group</span></a></p>
+    </div>
+    </div>
+    </div>
+    </div>
 {% endblock %}

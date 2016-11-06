@@ -19,10 +19,10 @@
   <div class="container">
     <div class="row>">
       <div class="col-lg-12">
-  <h1>{{ username }}</h1>
-  <p><a href="/creategroup">Create Group</a></p>
+  <h1 style="padding-bottom : 10px">{{ username }}'s groups</h1>
+  <p style="padding-bottom:20px"><a href="/creategroup" class="btn btn-success btn-sm"><span class="network-name">Create Group</span></a></p>
     {% for group in groups %}
-      <h3><a href="/group/{{ group._id }}/">   {{ group.groupname }}</a></h3>
+      <h3 style="padding-bottom:0px; padding-top:0px; margin-bottom:0px; margin-top:0px; height:29px"><a href="/group/{{ group._id }}/" class="btn btn-primary btn-lg sharp"> {{ group.groupname }}</a></h3>
     {% endfor %}
 </div>
 </div>
