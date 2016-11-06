@@ -3,7 +3,7 @@ from app import app
 from .forms import LoginForm, SignUpForm, GroupForm
 from .database import register_user, login_user, check_username_avail, search_user
 from .database import create_group, get_user_information, get_group_info
-from .database import add_member_to_group
+from .database import add_member_to_group, update_group
 from Crypto.Hash import SHA256
 
 @app.route('/index')
@@ -100,6 +100,7 @@ def group(group_id):
     members = []
     for user in user_data:
         temp = {}
+        temp['id'] = user
         temp['name'] = get_user_information(user)['username']
         temp['money'] = user_data[user]
         members.append(temp)
@@ -129,3 +130,16 @@ def add_member(group_id):
     add_member_to_group(group_id, to_add)
     redirect_url = '/group/{}/'.format(group_id)
     return redirect(redirect_url)
+
+
+@app.route('/group/<group_id>/update', methods=['POST'])
+def update_group_value(group_id):
+    user_1 = request.cookies.get('SplittrUserId', '')
+    if user_1 == '':
+        return '/login', 200
+    user_2 = request.form['user']
+    print(request.form)
+    value = int(request.form['value'])
+    print(value)
+    update_group(group_id, user_1, user_2, value)
+    return '/group/{}/'.format(group_id), 200

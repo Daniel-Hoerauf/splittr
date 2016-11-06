@@ -91,3 +91,12 @@ def check_username_avail(username):
         return False
     else:
         return True
+
+
+def update_group(group_id, user_1, user_2, value):
+    group_obj = ObjectId(group_id)
+    member_data = mongo.db.groups.find_one({'_id': group_obj})['members']
+    member_data[user_1][user_2] += value
+    member_data[user_2][user_1] -= value
+    mongo.db.groups.update_one({'_id': group_obj}, {'$set': {'members': member_data}})
+    return True

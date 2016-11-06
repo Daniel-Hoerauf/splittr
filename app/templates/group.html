@@ -1,7 +1,12 @@
 <!-- extend from base layout -->
 {% extends "base.html" %}
-
 {% block content %}
+<script>
+function updateDebts(user_id, multiplier) {
+  $.post( "update", { user: user_id, value: $('#' + user_id).val() } );
+  window.location.reload()
+}
+</script>
 <div class="intro-header-login">
         <div class="container">
             <div class="row">
@@ -44,7 +49,9 @@
 	    <td style="color: black" style="width: 20px">{{ member.money }}</td>
 	    <td style="width: 350px">
 	    	<p style="margin-bottom: 0px">
-	    		<input type="text" id="name" name="new_user" style="color: black"/>  <a href="/index" class="btn btn-info lil" style="width:75px"><span class="subtle-button">Paid</span></a><a href="/index" class="btn btn-info lil" style="width:75px"><span class="subtle-button">Owed</span></a>
+            <input type="text" id='{{ member.id }}' name="new_user" style="color: black"/>
+                <a href="#" onclick='updateDebts("{{ member.id }}", 1);' class="btn btn-info lil" style="width:75px"><span class="subtle-button">Paid</span></a>
+                <a href="#"  onclick='updateDebts("{{ member.id }}", -1);' class="btn btn-info lil" style="width:75px"><span class="subtle-button">Owed</span></a>
 	    	</p>
 	    </td>
 	  </tr>
