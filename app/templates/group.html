@@ -6,4 +6,14 @@
   {% for member in members %}
     <p>{{ member.name }} -- {{ member.money }} </p>
     {% endfor %}
+
+<form action='add_member' method='post'>
+    <div>
+        <label for="user_id">Add Member:</label>
+        <input type="text" id="name" name="new_user" />
+    </div>
+    <div class="button">
+        <button type="submit">Add to group</button>
+    </div>
+</form>
 {% endblock %}
