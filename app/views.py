@@ -1,7 +1,8 @@
-from flask import render_template, redirect, jsonify
+from flask import render_template, redirect, jsonify, request
 from app import app
 from .forms import LoginForm, SignUpForm, GroupForm
 from .database import register_user, login_user, check_username_avail, search_user
+from .database import create_group, get_user_information
 from Crypto.Hash import SHA256
 
 @app.route('/index')
@@ -15,6 +16,14 @@ def index():
 @app.route('/health/')
 def healthcheck():
     return 'Healthy', 200
+
+
+@app.route('/logout/')
+def logout():
+    response = redirect('/')
+    response.set_cookie('SplittrUserId', expires=0)
+    return response
+
 
 @app.route('/find_user/', methods=['GET'])
 @app.route('/find_user/<user_snippet>/', methods=['GET'])
@@ -71,11 +80,13 @@ def landing():
 
 @app.route('/')
 def home():
-    groups = ["Naked & Afraid", "Frat stars", "bitches", "schmoes", "Rachel"]
-    username = "Kevin Kozlowski"
+    user = request.cookies.get('SplittrUserId', '')
+    if user == '':
+        return redirect('/login')
+    info = get_user_information(user)
     return render_template('home.html',
-                           groups=groups,
-                           username=username)
+                           groups=info['groups'],
+                           username=info['username'])
 
 @app.route('/group')
 def group():
@@ -90,8 +101,13 @@ def group():
 
 @app.route('/creategroup', methods=['GET', 'POST'])
 def creategroup():
+    user = request.cookies.get('SplittrUserId', '')
+    if user == '':
+        return redirect('/login')
     form = GroupForm()
     if form.validate_on_submit():
+        groupname = form.groupname.data
+        create_group(groupname, user)
         return redirect('/index')
     return render_template('creategroup.html',
                            title='Create Group',

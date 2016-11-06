@@ -1,5 +1,46 @@
 from app import mongo
+from bson.objectid import ObjectId
 import re
+
+def create_group(group_name, user_id):
+    group = {
+        'groupname': group_name,
+        'members': {
+            user_id: {}
+        }
+    }
+    ID = mongo.db.groups.insert_one(group).inserted_id
+    user = ObjectId(user_id)
+    groups = mongo.db.users.find_one({'_id': user})['groups']
+    groups.append(str(ID))
+    mongo.db.users.update_one({'_id': user}, {'$set': {'groups': groups}})
+    return str(ID)
+
+
+def add_member_to_group(group_id, user_id):
+    group_obj = ObjectId(group_id)
+    user_obj = ObjectId(user_id)
+    members = mongo.db.groups.find_one({'_id': group_obj})['members']
+    if members.get(user_id):
+        return False
+    members[user_id] = {}
+    mongo.db.groups.update_one({'_id': group_id}, {'$set': {'members': members}})
+    groups = mongo.db.users.find_one({'_id': user_id})['groups']
+    groups.append(group_id)
+    mongo.db.users.update_one({'_id': user_id}, {'$set': {'groups': groups}})
+    return True
+
+
+def get_user_information(user_id):
+    user_obj = ObjectId(user_id)
+    info = mongo.db.users.find_one({'_id': user_obj}, {'groups': 1, 'username': 1})
+    info['groups'] = [get_group_name(group) for group in info['groups']]
+    return info
+
+
+def get_group_name(group_id):
+    group_obj = ObjectId(group_id)
+    return mongo.db.groups.find_one({'_id': group_obj})['groupname']
 
 
 def register_user(username, password, email):
