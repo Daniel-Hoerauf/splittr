@@ -98,13 +98,14 @@ def group(group_id):
     groupname = info['groupname']
     user_data = info['members'][user]
     members = []
-    for user in user_data:
+    for user_id in user_data:
         temp = {}
-        temp['id'] = user
-        temp['name'] = get_user_information(user)['username']
-        temp['money'] = user_data[user]
+        temp['id'] = user_id
+        temp['name'] = get_user_information(user_id)['username']
+        temp['money'] = user_data[user_id]
         members.append(temp)
     return render_template('group.html',
+                           user=user,
                            members=members,
                            groupname=groupname)
 
@@ -138,8 +139,6 @@ def update_group_value(group_id):
     if user_1 == '':
         return '/login', 200
     user_2 = request.form['user']
-    print(request.form)
     value = int(request.form['value'])
-    print(value)
     update_group(group_id, user_1, user_2, value)
     return '/group/{}/'.format(group_id), 200
