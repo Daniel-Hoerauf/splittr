@@ -34,13 +34,16 @@ def add_member_to_group(group_id, user_id):
 def get_user_information(user_id):
     user_obj = ObjectId(user_id)
     info = mongo.db.users.find_one({'_id': user_obj}, {'groups': 1, 'username': 1})
-    info['groups'] = [get_group_name(group) for group in info['groups']]
+    groups = info['groups']
+    info['groups'] = [get_group_info(group) for group in groups]
     return info
 
 
-def get_group_name(group_id):
+def get_group_info(group_id):
     group_obj = ObjectId(group_id)
-    return mongo.db.groups.find_one({'_id': group_obj})['groupname']
+    return mongo.db.groups.find_one({'_id': group_obj}, {'groupname': 1,
+                                                         '_id': 1,
+                                                         'members': 1})
 
 
 def register_user(username, password, email):

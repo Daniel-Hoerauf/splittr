@@ -2,7 +2,7 @@ from flask import render_template, redirect, jsonify, request
 from app import app
 from .forms import LoginForm, SignUpForm, GroupForm
 from .database import register_user, login_user, check_username_avail, search_user
-from .database import create_group, get_user_information
+from .database import create_group, get_user_information, get_group_info
 from Crypto.Hash import SHA256
 
 @app.route('/index')
@@ -88,13 +88,14 @@ def home():
                            groups=info['groups'],
                            username=info['username'])
 
-@app.route('/group')
-def group():
-    members = [{'name': "bob jones", 'money': 70},
-               {'name': "malcolm", 'money': 80},
-               {'name': "diana", 'money': -3},
-               {'name': "stanley payne", 'money': 666}]
-    groupname = "Twelve"
+@app.route('/group/<group_id>/')
+def group(group_id):
+    user = request.cookies.get('SplittrUserId', '')
+    if user == '':
+        return redirect('/login')
+    info = get_group_info(group_id)
+    groupname = info['groupname']
+    members = info['members'][user]
     return render_template('group.html',
                            members=members,
                            groupname=groupname)
