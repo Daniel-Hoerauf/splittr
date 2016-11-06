@@ -109,7 +109,7 @@ def creategroup():
     if form.validate_on_submit():
         groupname = form.groupname.data
         create_group(groupname, user)
-        return redirect('/index')
+        return redirect('/')
     return render_template('creategroup.html',
                            title='Create Group',
                            form=form)
