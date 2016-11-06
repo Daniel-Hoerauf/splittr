@@ -3,7 +3,7 @@
 {% block content %}
 <script>
 function updateDebts(user_id, multiplier) {
-  $.post( "update", { user: user_id, value: $('#' + user_id).val() } );
+  $.post( "update", { user: user_id, value: parseInt($('#' + user_id).val()) * multiplier } );
   window.location.reload()
 }
 </script>
